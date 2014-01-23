@@ -1,4 +1,4 @@
-package lab1;
+package lab1.ex1;
 
 import org.jacop.constraints.*;
 import org.jacop.core.*;
