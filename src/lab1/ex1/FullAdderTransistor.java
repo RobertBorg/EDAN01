@@ -40,11 +40,17 @@ public class FullAdderTransistor {
 				new IndomainMin<BooleanVar>());
 		boolean result = search.labeling(store, select);
 	}
-	private static Constraint pTrans(BooleanVar b, BooleanVar x, BooleanVar y) {
+	private static PrimitiveConstraint pTrans(BooleanVar b, BooleanVar x, BooleanVar y) {
 		return new IfThen(new XeqC(b,1),new XeqY(x,y));
 	}
 	
-	private static Constraint nTrans(BooleanVar b, BooleanVar x, BooleanVar y) {
+	private static PrimitiveConstraint nTrans(BooleanVar b, BooleanVar x, BooleanVar y) {
 		return new IfThen(new XeqC(b,0),new XeqY(x,y));
+	}
+	
+	private static Constraint inverter(BooleanVar a, BooleanVar b, Store s){
+		PrimitiveConstraint pTrans = FullAdderTransistor.pTrans(a, b, new BooleanVar(s, "False", 0, 0));
+		PrimitiveConstraint nTrans = FullAdderTransistor.nTrans(a, b, new BooleanVar(s, "True", 1, 1));
+		return new And(pTrans, nTrans);
 	}
 }
