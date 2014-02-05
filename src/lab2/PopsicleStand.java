@@ -92,6 +92,21 @@ public class PopsicleStand {
 
 		IntVar fullTimeJobTime = new IntVar(store, 5, 5);
 		IntVar partTimeJobTime = new IntVar(store, 2, 2);
+		
+		IntVar mondayWorkersFullTimeSum = new IntVar(store, 0, 100000);
+		store.impose(new Sum(new IntVar[]{mondayWorkersFullTime, sundayWorkersFullTime, saturdayWorkersFullTime, fridayWorkersFullTime, thursdayWorkersFullTime}, mondayWorkersFullTimeSum));
+		IntVar tuesdayWorkersFullTimeSum = new IntVar(store, 0, 100000);
+		store.impose(new Sum(new IntVar[]{tuesdayWorkersFullTime, mondayWorkersFullTime, sundayWorkersFullTime, saturdayWorkersFullTime, fridayWorkersFullTime}, mondayWorkersFullTimeSum));
+		IntVar wednesdayWorkersFullTimeSum = new IntVar(store, 0, 100000);
+		store.impose(new Sum(new IntVar[]{wednesdayWorkersFullTime, tuesdayWorkersFullTime, mondayWorkersFullTime, sundayWorkersFullTime, saturdayWorkersFullTime}, mondayWorkersFullTimeSum));
+		IntVar thursdayWorkersFullTimeSum = new IntVar(store, 0, 100000);
+		store.impose(new Sum(new IntVar[]{thursdayWorkers, wednesdayWorkersFullTime, tuesdayWorkersFullTime, mondayWorkersFullTime, sundayWorkersFullTime}, mondayWorkersFullTimeSum));
+		IntVar fridayWorkersFullTimeSum = new IntVar(store, 0, 100000);
+		store.impose(new Sum(new IntVar[]{fridayWorkers, thursdayWorkers, wednesdayWorkersFullTime, tuesdayWorkersFullTime, mondayWorkersFullTime}, mondayWorkersFullTimeSum));
+		IntVar saturdayWorkersFullTimeSum = new IntVar(store, 0, 100000);
+		store.impose(new Sum(new IntVar[]{saturdayWorkersFullTime, fridayWorkers, thursdayWorkers, wednesdayWorkersFullTime, tuesdayWorkersFullTime}, mondayWorkersFullTimeSum));
+		IntVar sundayWorkersFullTimeSum = new IntVar(store, 0, 100000);
+		store.impose(new Sum(new IntVar[]{sundayWorkersFullTime, saturdayWorkersFullTime, fridayWorkers, thursdayWorkers, wednesdayWorkersFullTime}, mondayWorkersFullTimeSum));
 
 		IntVar mondayWorkersPartTimeSum = new IntVar(store, 0, 100000);
 		store.impose(new Sum(new IntVar[]{mondayWorkersPartTime, sundayWorkersPartTime}, mondayWorkersPartTimeSum));
