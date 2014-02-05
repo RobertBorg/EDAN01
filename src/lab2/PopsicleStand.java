@@ -28,29 +28,29 @@ public class PopsicleStand {
 	 */
 	public static void doWork() {
 		Store store = new Store();
-		IntVar mondayWorkersFullTime = new IntVar(store, "mondayFullTime", 0, 10000);
-		IntVar tuesdayWorkersFullTime = new IntVar(store, "tuesdayFullTime", 0, 10000);
-		IntVar wednesdayWorkersFullTime = new IntVar(store, "wednesdayFullTime", 0, 10000);
-		IntVar thursdayWorkersFullTime = new IntVar(store, "thursdayFullTime", 0, 10000);
-		IntVar fridayWorkersFullTime = new IntVar(store, "fridayFullTime", 0, 10000);
-		IntVar saturdayWorkersFullTime = new IntVar(store, "saturdayFullTime", 0, 10000);
-		IntVar sundayWorkersFullTime = new IntVar(store, "sundayFullTime", 0, 10000);
+		IntVar mondayWorkersFullTime = new IntVar(store, "mondayFullTime", 0, 30);
+		IntVar tuesdayWorkersFullTime = new IntVar(store, "tuesdayFullTime", 0, 30);
+		IntVar wednesdayWorkersFullTime = new IntVar(store, "wednesdayFullTime", 0, 30);
+		IntVar thursdayWorkersFullTime = new IntVar(store, "thursdayFullTime", 0, 30);
+		IntVar fridayWorkersFullTime = new IntVar(store, "fridayFullTime", 0, 30);
+		IntVar saturdayWorkersFullTime = new IntVar(store, "saturdayFullTime", 0, 30);
+		IntVar sundayWorkersFullTime = new IntVar(store, "sundayFullTime", 0, 30);
 
-		IntVar mondayWorkersPartTime = new IntVar(store, "mondayPartTime", 0, 10000);
-		IntVar tuesdayWorkersPartTime = new IntVar(store, "tuesdayPartTime", 0, 10000);
-		IntVar wednesdayWorkersPartTime = new IntVar(store, "wednesdayPartTime", 0, 10000);
-		IntVar thursdayWorkersPartTime = new IntVar(store, "thursdayPartTime", 0, 10000);
-		IntVar fridayWorkersPartTime = new IntVar(store, "fridayPartTime", 0, 10000);
-		IntVar saturdayWorkersPartTime = new IntVar(store, "saturdayPartTime", 0, 10000);
-		IntVar sundayWorkersPartTime = new IntVar(store, "sundayPartTime", 0, 10000);
+		IntVar mondayWorkersPartTime = new IntVar(store, "mondayPartTime", 0, 30);
+		IntVar tuesdayWorkersPartTime = new IntVar(store, "tuesdayPartTime", 0, 30);
+		IntVar wednesdayWorkersPartTime = new IntVar(store, "wednesdayPartTime", 0, 30);
+		IntVar thursdayWorkersPartTime = new IntVar(store, "thursdayPartTime", 0, 30);
+		IntVar fridayWorkersPartTime = new IntVar(store, "fridayPartTime", 0, 30);
+		IntVar saturdayWorkersPartTime = new IntVar(store, "saturdayPartTime", 0, 30);
+		IntVar sundayWorkersPartTime = new IntVar(store, "sundayPartTime", 0, 30);
 
-		IntVar mondayWorkers = new IntVar(store, "monday",5, 10000);
-		IntVar tuesdayWorkers = new IntVar(store, "tuesday", 7, 10000);
-		IntVar wednesdayWorkers = new IntVar(store, "wednesday", 7, 10000);
-		IntVar thursdayWorkers = new IntVar(store, "thursday", 10, 10000);
-		IntVar fridayWorkers = new IntVar(store, "friday", 16, 10000);
-		IntVar saturdayWorkers = new IntVar(store, "saturday", 18, 10000);
-		IntVar sundayWorkers = new IntVar(store, "sunday", 12, 10000);
+		IntVar mondayWorkers = new IntVar(store, "monday",5, 30);
+		IntVar tuesdayWorkers = new IntVar(store, "tuesday", 7, 30);
+		IntVar wednesdayWorkers = new IntVar(store, "wednesday", 7, 30);
+		IntVar thursdayWorkers = new IntVar(store, "thursday", 10, 30);
+		IntVar fridayWorkers = new IntVar(store, "friday", 16, 30);
+		IntVar saturdayWorkers = new IntVar(store, "saturday", 18, 30);
+		IntVar sundayWorkers = new IntVar(store, "sunday", 12, 30);
 
 		// IntVar mondayWorkersFullTimePay = new IntVar(store,
 		// "mondayFullTimePay");
@@ -90,15 +90,20 @@ public class PopsicleStand {
 		IntVar saturdayWorkersPay = new IntVar(store, "saturdayPay");
 		IntVar sundayWorkersPay = new IntVar(store, "sundayPay");
 
-		IntVar fullTimeJobTime = new IntVar(store, 5, 5);
-		IntVar partTimeJobTime = new IntVar(store, 2, 2);
-
 		IntVar mondayWorkersPartTimeSum = new IntVar(store, 0, 100000);
 		store.impose(new Sum(new IntVar[]{mondayWorkersPartTime, sundayWorkersPartTime}, mondayWorkersPartTimeSum));
 		IntVar tuesdayWorkersPartTimeSum = new IntVar(store, 0, 100000);
 		store.impose(new Sum(new IntVar[]{tuesdayWorkersPartTime, mondayWorkersPartTime}, tuesdayWorkersPartTimeSum));
 		IntVar wednesdayWorkersPartTimeSum = new IntVar(store, 0, 100000);
 		store.impose(new Sum(new IntVar[]{wednesdayWorkersPartTime, tuesdayWorkersPartTime}, wednesdayWorkersPartTimeSum));
+		IntVar thursdayWorkersPartTimeSum = new IntVar(store, 0, 100000);
+		store.impose(new Sum(new IntVar[]{thursdayWorkersPartTime, wednesdayWorkersPartTime}, thursdayWorkersPartTimeSum));
+		IntVar fridayWorkersPartTimeSum = new IntVar(store, 0, 100000);
+		store.impose(new Sum(new IntVar[]{fridayWorkersPartTime, thursdayWorkersPartTime}, fridayWorkersPartTimeSum));
+		IntVar saturdayWorkersPartTimeSum = new IntVar(store, 0, 100000);
+		store.impose(new Sum(new IntVar[]{saturdayWorkersPartTime, fridayWorkersPartTime}, saturdayWorkersPartTimeSum));
+		IntVar sundayWorkersPartTimeSum = new IntVar(store, 0, 100000);
+		store.impose(new Sum(new IntVar[]{sundayWorkersPartTime, saturdayWorkersPartTime}, sundayWorkersPartTimeSum));
 		
 		
 		Sum mondayWorkersSum = new Sum(
