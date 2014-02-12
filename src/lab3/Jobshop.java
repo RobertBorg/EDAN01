@@ -1,6 +1,7 @@
 package lab3;
 
 import org.jacop.constraints.Cumulative;
+import org.jacop.constraints.XplusCeqZ;
 import org.jacop.constraints.XplusClteqZ;
 import org.jacop.core.IntVar;
 import org.jacop.core.Store;
@@ -24,9 +25,16 @@ public class Jobshop {
 		IntVar startTime12 = new IntVar(store, "Job 1 - Task 2 - S", 1, 100);
 		store.impose(new XplusClteqZ(startTime11, 1, startTime12)); //And so on...
 		IntVar startTime13 = new IntVar(store, "Job 1 - Task 3 - S", 4, 100);
+		store.impose(new XplusClteqZ(startTime12, 3, startTime13));
 		IntVar startTime14 = new IntVar(store, "Job 1 - Task 4 - S", 10, 100);
+		store.impose(new XplusClteqZ(startTime13, 6, startTime14));
 		IntVar startTime15 = new IntVar(store, "Job 1 - Task 5 - S", 17, 100);
+		store.impose(new XplusClteqZ(startTime14, 7, startTime15));
 		IntVar startTime16 = new IntVar(store, "Job 1 - Task 6 - S", 20, 100);
+		store.impose(new XplusClteqZ(startTime15, 3, startTime16));
+		IntVar endTime1 = new IntVar(store, "Job 1 - E", 0, 100);
+		store.impose(new XplusCeqZ(startTime16, 6, endTime1));
+		
 		//Make similar varables for all jobs
 		
 		IntVar[] durationsMachine0 = { new IntVar(store, 3, 3), new IntVar(store, 10, 10), new IntVar(store, 9, 9),
@@ -42,5 +50,8 @@ public class Jobshop {
 		IntVar[] durationsMachine5 = { new IntVar(store, 3, 3), new IntVar(store, 10, 10), new IntVar(store, 8, 8), new IntVar(store, 9, 9),
 				new IntVar(store, 4, 4), new IntVar(store, 9, 9) };
 		// Cumulative cum = new Cumulative(starts, durations, resources, limit)
+		
+		
+		
 	}
 }
