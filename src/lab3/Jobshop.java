@@ -1,10 +1,18 @@
 package lab3;
 
 import org.jacop.constraints.Cumulative;
+import org.jacop.constraints.Max;
 import org.jacop.constraints.XplusCeqZ;
 import org.jacop.constraints.XplusClteqZ;
 import org.jacop.core.IntVar;
 import org.jacop.core.Store;
+import org.jacop.search.DepthFirstSearch;
+import org.jacop.search.IndomainMin;
+import org.jacop.search.PrintOutListener;
+import org.jacop.search.Search;
+import org.jacop.search.SelectChoicePoint;
+import org.jacop.search.SimpleSelect;
+import org.jacop.search.SmallestDomain;
 
 public class Jobshop {
 	public static void main(String[] args) {
@@ -106,6 +114,8 @@ public class Jobshop {
 		store.impose(new XplusCeqZ(startTime66, 1, endTime6));
 		
 		//Make similar varables for all jobs
+		IntVar one = new IntVar(store, 1, 1);
+		IntVar[] resources = {one, one, one, one, one, one};
 		
 		IntVar[] durationsMachine0 = { new IntVar(store, 3, 3), new IntVar(store, 10, 10), new IntVar(store, 9, 9),
 				new IntVar(store, 5, 5), new IntVar(store, 3, 3), new IntVar(store, 10, 10) };
@@ -119,7 +129,42 @@ public class Jobshop {
 				new IntVar(store, 5, 5), new IntVar(store, 4, 4) };
 		IntVar[] durationsMachine5 = { new IntVar(store, 3, 3), new IntVar(store, 10, 10), new IntVar(store, 8, 8), new IntVar(store, 9, 9),
 				new IntVar(store, 4, 4), new IntVar(store, 9, 9) };
-		// Cumulative cum = new Cumulative(starts, durations, resources, limit)
+		
+		Cumulative cum0 = new Cumulative(new IntVar[] {startTime12, startTime25, startTime34, startTime42, startTime55, startTime64}, durationsMachine0, resources, one);
+		Cumulative cum1 = new Cumulative(new IntVar[] {startTime13, startTime21, startTime35, startTime41, startTime52, startTime61}, durationsMachine1, resources, one);
+		Cumulative cum2 = new Cumulative(new IntVar[] {startTime11, startTime22, startTime31, startTime43, startTime51, startTime66}, durationsMachine2, resources, one);
+		Cumulative cum3 = new Cumulative(new IntVar[] {startTime14, startTime26, startTime32, startTime44, startTime56, startTime62}, durationsMachine3, resources, one);
+		Cumulative cum4 = new Cumulative(new IntVar[] {startTime16, startTime23, startTime36, startTime45, startTime53, startTime65}, durationsMachine4, resources, one);
+		Cumulative cum5 = new Cumulative(new IntVar[] {startTime15, startTime24, startTime33, startTime46, startTime54, startTime63}, durationsMachine5, resources, one);
+		
+		cum0.impose(store);
+		cum1.impose(store);
+		cum2.impose(store);
+		cum3.impose(store);
+		cum4.impose(store);
+		cum5.impose(store);
+		
+		IntVar maxEndTime = new IntVar(store, "maxendtime", 0, 1000);
+		
+
+		store.impose(new Max(new IntVar[] {endTime1, endTime2, endTime3, endTime4, endTime5, endTime6},maxEndTime));
+		
+		IntVar[] startTimes = {	startTime11, startTime12, startTime13, startTime14, startTime15, startTime16,
+								startTime21, startTime22, startTime23, startTime24, startTime25, startTime26,
+								startTime31, startTime32, startTime33, startTime34, startTime35, startTime36,
+								startTime41, startTime42, startTime43, startTime44, startTime45, startTime46,
+								startTime51, startTime52, startTime53, startTime54, startTime55, startTime56,
+								startTime61, startTime62, startTime63, startTime64, startTime65, startTime66};
+		
+		SelectChoicePoint<IntVar> select = new SimpleSelect<IntVar>(startTimes, new SmallestDomain<IntVar>(), // input
+				// order
+		new IndomainMin<IntVar>());
+		
+		Search<IntVar> search = new DepthFirstSearch<IntVar>();
+
+		search.setSolutionListener(new PrintOutListener<IntVar>());
+		
+		boolean result = search.labeling(store, select, maxEndTime);
 		
 		
 		
