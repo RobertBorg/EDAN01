@@ -37,6 +37,13 @@ public class Jobshop {
 		
 		//Make similar varables for all jobs
 		
+		IntVar startTime61 = new IntVar(store, "Job 6 - Task 1 - S", 0, 100);
+		IntVar startTime62 = new IntVar(store, "Job 6 - Task 2 - S", 3, 100);
+		IntVar startTime63 = new IntVar(store, "Job 6 - Task 3 - S", 6, 100);
+		IntVar startTime64 = new IntVar(store, "Job 6 - Task 4 - S", 17, 100);
+		IntVar startTime65 = new IntVar(store, "Job 6 - Task 5 - S", 27, 100);
+		IntVar startTime66 = new IntVar(store, "Job 6 - Task 6 - S", 31, 100);
+		
 		IntVar[] durationsMachine0 = { new IntVar(store, 3, 3), new IntVar(store, 10, 10), new IntVar(store, 9, 9),
 				new IntVar(store, 5, 5), new IntVar(store, 3, 3), new IntVar(store, 10, 10) };
 		IntVar[] durationsMachine1 = { new IntVar(store, 6, 6), new IntVar(store, 8, 8), new IntVar(store, 1, 1), new IntVar(store, 5, 5),
