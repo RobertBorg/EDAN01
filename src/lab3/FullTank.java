@@ -40,7 +40,7 @@ public class FullTank {
 	 */
 	public static void doWork() {
 		Store store = new Store();
-		int tankSize = 15;
+		int tankSize = 10;
 		IntVar maxFuel = new IntVar(store,"maxFuel", tankSize, tankSize);
 		
 		IntVar fuelLevelsIn[] = new IntVar [10];
