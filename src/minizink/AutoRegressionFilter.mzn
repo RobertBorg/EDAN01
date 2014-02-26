@@ -1,10 +1,10 @@
 include "globals.mzn";
 
-int: adders = 1;
-int: mulers = 1;
+int: adders;
+int: mulers;
 
-int: addTime = 1;
-int: mulTime = 2;
+int: addTime;
+int: mulTime;
 
 set of int: TOTAL = 0..27;
 
@@ -42,9 +42,6 @@ mulTimes = [mulTime,mulTime,mulTime,mulTime
 array[numAdds] of var int: addCost;
 array[0..17] of var int: mulCost;
 
-addCost = [1,1,1,1,1,1,1,1,1,1,1,1];
-			
-mulCost = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 
 constraint cumulative(adds, addTimes, addCost, adders);
 constraint cumulative(muls, mulTimes, mulCost, mulers);
