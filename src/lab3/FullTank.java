@@ -8,8 +8,10 @@ import org.jacop.constraints.Subcircuit;
 import org.jacop.constraints.Sum;
 import org.jacop.constraints.SumWeight;
 import org.jacop.constraints.XeqC;
+import org.jacop.constraints.XlteqY;
 import org.jacop.constraints.XplusCeqZ;
 import org.jacop.constraints.XplusClteqZ;
+import org.jacop.constraints.XplusYlteqZ;
 import org.jacop.constraints.XplusYplusCeqZ;
 import org.jacop.core.IntDomain;
 import org.jacop.core.IntVar;
@@ -38,15 +40,20 @@ public class FullTank {
 	 */
 	public static void doWork() {
 		Store store = new Store();
+		int tankSize = 10;
+		IntVar maxFuel = new IntVar(store,"maxFuel", tankSize, tankSize);
 		
 		IntVar fuelLevelsIn[] = new IntVar [10];
-		for(int i = 0 ; i < 10; ++i) {
-			fuelLevelsIn[i] = new IntVar(store, String.format("fuelin_%d", i+1), 0, 10);
+		fuelLevelsIn[0] = new IntVar(store, String.format("fuelin_%d", 1), 0, 0);
+		for(int i = 1 ; i < 10; ++i) {
+			fuelLevelsIn[i] = new IntVar(store, String.format("fuelin_%d", i+1), 0, tankSize);
 		}
-		fuelLevelsIn[0] = new IntVar(store, String.format("fuelin_%d", 0), 0, 0);
+		
 		IntVar fuelRefill[] = new IntVar [10];
 		for(int i = 0 ; i < 10; ++i) {
-			fuelRefill[i] = new IntVar(store, String.format("fuel refill in %d", i+1), 0, 10);
+			fuelRefill[i] = new IntVar(store, String.format("fuel refill in %d", i+1), 0, tankSize);
+			store.impose(new XlteqY(fuelRefill[i], maxFuel));
+			store.impose(new XplusYlteqZ(fuelLevelsIn[i], fuelRefill[i], maxFuel));
 		}
 		
 		
@@ -77,22 +84,19 @@ public class FullTank {
 		IntVar node9 = new IntVar(store, "9", 10, 10);
 		node9.addDom(7, 8);
 		node9.addDom(9, 9);
-		IntVar node10 = new IntVar(store, "10", 8, 9);
+		IntVar node10 = new IntVar(store, "10", 1, 1);
 
 		
-		
-		
-		
-		IntVar distance1 = new IntVar(store, "dist1", 0, 14);
-		IntVar distance2 = new IntVar(store, "dist2", 0, 14);
-		IntVar distance3 = new IntVar(store, "dist3", 0, 14);
-		IntVar distance4 = new IntVar(store, "dist4", 0, 14);
-		IntVar distance5 = new IntVar(store, "dist5", 0, 14);
-		IntVar distance6 = new IntVar(store, "dist6", 0, 14);
-		IntVar distance7 = new IntVar(store, "dist7", 0, 14);
-		IntVar distance8 = new IntVar(store, "dist8", 0, 14);
-		IntVar distance9 = new IntVar(store, "dist9", 0, 14);
-		IntVar distance10 = new IntVar(store, "dist10", 0, 14);
+//		IntVar distance1 = new IntVar(store, "dist1", 0, 14);
+//		IntVar distance2 = new IntVar(store, "dist2", 0, 14);
+//		IntVar distance3 = new IntVar(store, "dist3", 0, 14);
+//		IntVar distance4 = new IntVar(store, "dist4", 0, 14);
+//		IntVar distance5 = new IntVar(store, "dist5", 0, 14);
+//		IntVar distance6 = new IntVar(store, "dist6", 0, 14);
+//		IntVar distance7 = new IntVar(store, "dist7", 0, 14);
+//		IntVar distance8 = new IntVar(store, "dist8", 0, 14);
+//		IntVar distance9 = new IntVar(store, "dist9", 0, 14);
+//		IntVar distance10 = new IntVar(store, "dist10", 0, 14);
 		
 		store.impose(new IfThen(new XeqC(node1, 2), new XplusYplusCeqZ(fuelLevelsIn[0],fuelRefill[0], -10, fuelLevelsIn[1])));
 		store.impose(new IfThen(new XeqC(node1, 3), new XplusYplusCeqZ(fuelLevelsIn[0],fuelRefill[0], -11, fuelLevelsIn[2])));
@@ -137,15 +141,18 @@ public class FullTank {
 
 		store.impose(new IfThen(new XeqC(node10, 9), new XplusYplusCeqZ(fuelLevelsIn[9],fuelRefill[9], -2, fuelLevelsIn[8])));
 		store.impose(new IfThen(new XeqC(node10, 8), new XplusYplusCeqZ(fuelLevelsIn[9],fuelRefill[9], -9, fuelLevelsIn[7])));
-//		store.impose(new IfThen(new XeqC(node10, 1), new XplusYplusCeqZ(fuelLevelsIn[9],fuelRefill[9], 0, fuelLevelsIn[0])));
+		
+		
 		
 
-		IntVar distSum = new IntVar(store, "distSum", 0, 500);
+//		IntVar distSum = new IntVar(store, "distSum", 0, 500);
 
 //		store.impose(new Sum(new IntVar[] { distance1, distance2, distance3, distance4, distance5, distance6, distance7, distance8, distance9, distance10 },
 //				distSum));
-		IntVar totalTankCost = new IntVar(store,0,50000);
-		store.impose(new SumWeight(fuelRefill, new int[]{10,10,8,12,13,9,10,11,12,8}, totalTankCost));
+		IntVar totalTankCost = new IntVar(store,"totalTankCost",0,50000);
+		int[] fuelCost = new int[]{10,10,8,12,13,9,10,11,12,8};
+		int[] disregardFuelCost = new int[]{1,1,1,1,1,1,1,1,1,1};
+		store.impose(new SumWeight(fuelRefill, fuelCost, totalTankCost));
 		
 		IntVar[] route = { node1, node2, node3, node4, node5, node6, node7, node8, node9, node10};
 
