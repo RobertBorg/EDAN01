@@ -53,7 +53,7 @@ public class FullTank {
 		IntVar fuelRefill[] = new IntVar [10];
 		for(int i = 0 ; i < 10; ++i) {
 			fuelRefill[i] = new IntVar(store, String.format("fuel refill in %d", i+1), 0, tankSize);
-			store.impose(new XlteqY(fuelRefill[i], maxFuel));
+//			store.impose(new XlteqY(fuelRefill[i], maxFuel));
 			store.impose(new XplusYlteqZ(fuelLevelsIn[i], fuelRefill[i], maxFuel));
 		}
 		
@@ -88,81 +88,40 @@ public class FullTank {
 		IntVar node10 = new IntVar(store, "10", 1, 1);
 		
 		IntVar nodes[] = {node1, node2, node3, node4, node5, node6 ,node7, node8, node9, node10};
+//		10, 8), new XplusYplusCeqZ(fuelLevelsIn[9],fuelRefill[9], -9, fuelLevelsIn[7])));
 		
-		store.impose(new IfThen(new XeqC(node1, 2), new XplusYplusCeqZ(fuelLevelsIn[0],fuelRefill[0], -10, fuelLevelsIn[1])));
-		store.impose(new IfThen(new XeqC(node1, 3), new XplusYplusCeqZ(fuelLevelsIn[0],fuelRefill[0], -11, fuelLevelsIn[2])));
-		store.impose(new IfThen(new XeqC(node1, 4), new XplusYplusCeqZ(fuelLevelsIn[0],fuelRefill[0], -6, fuelLevelsIn[3])));
-		
-		store.impose(new IfThen(new XeqC(node2, 1), new XplusYplusCeqZ(fuelLevelsIn[1],fuelRefill[1], -10, fuelLevelsIn[0])));
-		store.impose(new IfThen(new XeqC(node2, 3), new XplusYplusCeqZ(fuelLevelsIn[1],fuelRefill[1], -5, fuelLevelsIn[2])));
-		store.impose(new IfThen(new XeqC(node2, 4), new XplusYplusCeqZ(fuelLevelsIn[1],fuelRefill[1], -8, fuelLevelsIn[4])));
-		
-		store.impose(new IfThen(new XeqC(node3, 1), new XplusYplusCeqZ(fuelLevelsIn[2],fuelRefill[2], -11, fuelLevelsIn[0])));
-		store.impose(new IfThen(new XeqC(node3, 2), new XplusYplusCeqZ(fuelLevelsIn[2],fuelRefill[2], -5, fuelLevelsIn[1])));
-		store.impose(new IfThen(new XeqC(node3, 5), new XplusYplusCeqZ(fuelLevelsIn[2],fuelRefill[2], -3, fuelLevelsIn[4])));
-		store.impose(new IfThen(new XeqC(node3, 6), new XplusYplusCeqZ(fuelLevelsIn[2],fuelRefill[2], -5, fuelLevelsIn[5])));
-		
-		store.impose(new IfThen(new XeqC(node4, 1), new XplusYplusCeqZ(fuelLevelsIn[3],fuelRefill[3], -6, fuelLevelsIn[0])));
-		store.impose(new IfThen(new XeqC(node4, 2), new XplusYplusCeqZ(fuelLevelsIn[3],fuelRefill[3], -8, fuelLevelsIn[1])));
-		store.impose(new IfThen(new XeqC(node4, 5), new XplusYplusCeqZ(fuelLevelsIn[3],fuelRefill[3], -2, fuelLevelsIn[4])));
-		store.impose(new IfThen(new XeqC(node4, 6), new XplusYplusCeqZ(fuelLevelsIn[3],fuelRefill[3], -6, fuelLevelsIn[5])));
-		store.impose(new IfThen(new XeqC(node4, 7), new XplusYplusCeqZ(fuelLevelsIn[3],fuelRefill[3], -7, fuelLevelsIn[6])));
-		
-		store.impose(new IfThen(new XeqC(node5, 3), new XplusYplusCeqZ(fuelLevelsIn[4],fuelRefill[4], -3, fuelLevelsIn[2])));
-		store.impose(new IfThen(new XeqC(node5, 4), new XplusYplusCeqZ(fuelLevelsIn[4],fuelRefill[4], -2, fuelLevelsIn[3])));
-		store.impose(new IfThen(new XeqC(node5, 7), new XplusYplusCeqZ(fuelLevelsIn[4],fuelRefill[4], -12, fuelLevelsIn[6])));
-		
-		store.impose(new IfThen(new XeqC(node6, 3), new XplusYplusCeqZ(fuelLevelsIn[5],fuelRefill[5], -5, fuelLevelsIn[2])));
-		store.impose(new IfThen(new XeqC(node6, 4), new XplusYplusCeqZ(fuelLevelsIn[5],fuelRefill[5], -6, fuelLevelsIn[3])));
-		store.impose(new IfThen(new XeqC(node6, 8), new XplusYplusCeqZ(fuelLevelsIn[5],fuelRefill[5], -14, fuelLevelsIn[7])));
-		
-		store.impose(new IfThen(new XeqC(node7, 4), new XplusYplusCeqZ(fuelLevelsIn[6],fuelRefill[6], -7, fuelLevelsIn[3])));
-		store.impose(new IfThen(new XeqC(node7, 5), new XplusYplusCeqZ(fuelLevelsIn[6],fuelRefill[6], -12, fuelLevelsIn[4])));
-		store.impose(new IfThen(new XeqC(node7, 8), new XplusYplusCeqZ(fuelLevelsIn[6],fuelRefill[6], -5, fuelLevelsIn[7])));
-		store.impose(new IfThen(new XeqC(node7, 9), new XplusYplusCeqZ(fuelLevelsIn[6],fuelRefill[6], -3, fuelLevelsIn[8])));
-		
-		store.impose(new IfThen(new XeqC(node8, 6), new XplusYplusCeqZ(fuelLevelsIn[7],fuelRefill[7], -14, fuelLevelsIn[5])));
-		store.impose(new IfThen(new XeqC(node8, 7), new XplusYplusCeqZ(fuelLevelsIn[7],fuelRefill[7], -5, fuelLevelsIn[6])));
-		store.impose(new IfThen(new XeqC(node8, 9), new XplusYplusCeqZ(fuelLevelsIn[7],fuelRefill[7], -1, fuelLevelsIn[8])));
-		store.impose(new IfThen(new XeqC(node8, 10), new XplusYplusCeqZ(fuelLevelsIn[7],fuelRefill[7], -9, fuelLevelsIn[9])));
-
-		store.impose(new IfThen(new XeqC(node9, 7), new XplusYplusCeqZ(fuelLevelsIn[8],fuelRefill[8], -3, fuelLevelsIn[6])));
-		store.impose(new IfThen(new XeqC(node9, 8), new XplusYplusCeqZ(fuelLevelsIn[8],fuelRefill[8], -1, fuelLevelsIn[7])));
-		store.impose(new IfThen(new XeqC(node9, 10), new XplusYplusCeqZ(fuelLevelsIn[8],fuelRefill[8], -2, fuelLevelsIn[9])));
-
-		store.impose(new IfThen(new XeqC(node10, 9), new XplusYplusCeqZ(fuelLevelsIn[9],fuelRefill[9], -2, fuelLevelsIn[8])));
-		store.impose(new IfThen(new XeqC(node10, 8), new XplusYplusCeqZ(fuelLevelsIn[9],fuelRefill[9], -9, fuelLevelsIn[7])));
-		
-		int max = Integer.MAX_VALUE;
+		int max = Integer.MIN_VALUE;
 		//DEfine adj matrix
-		int[][] adjacency = {{max, -10, -11, -6, max, max, max, max, max, max},
-		                     {-10, max, -5, max, -8, max, max, max, max, max},
-		                     {-11, -5, max, max, -3, -5, max, max, max, max},
-		                     {-6, -8, max, max, -2, -6, -7, max, max, max},
-		                     {max, max, -3, -2, max, max, -12, max, max, max},
-		                     {max, max, -5, -6, max, max, max, -14, max, max},
-		                     {max, max, max, -7, -12, max, max, -5, -3, max},
-		                     {max, max, max, max, max, -14,-5, max, -1, -9},
-		                     {max, max, max, max, max, max, -3, -1, max, -2},
-		                     {max, max, max, max, max, max, max, -9, -2, max}};
+		int[][] adjacency = {{0, -10, -11, -6, max, max, max, max, max, max},
+		                     {-10, 0, -5, max, -8, max, max, max, max, max},
+		                     {-11, -5, 0, max, -3, -5, max, max, max, max},
+		                     {-6, -8, max, 0, -2, -6, -7, max, max, max},
+		                     {max, max, -3, -2, 0, max, -12, max, max, max},
+		                     {max, max, -5, -6, max, 0, max, -14, max, max},
+		                     {max, max, max, -7, -12, max, 0, -5, -3, max},
+		                     {max, max, max, max, max, -14,-5, 0, -1, -9},
+		                     {max, max, max, max, max, max, -3, -1, 0, -2},
+		                     {0, max, max, max, max, max, max, -9, -2, 0}};
 		IntVar[] consumtion = new IntVar[10];
 		//Save variables for consumption leaving each node
 		for (int i = 0; i < consumtion.length; i++) {
 			consumtion[i] = new IntVar(store, "consumtion "+i,-10000, 10000);
 		}
-		//This won't work for some reason, even though it should only affect a variable not related to the rest of the serach. Why?!
-		IntVar test = new IntVar(store, "test", -20, 20);
-		store.impose(new Element(node10, adjacency[9], test, -1));
+		
+		
 		for (int i = 0; i< adjacency.length; i++) {
+			//Set the consumption from that node to the correct value
+			Element c =new Element(nodes[i], adjacency[i], consumtion[i]);
+			store.impose(c);
+//			System.out.println(c);
 			for (int j = 0; j < adjacency[i].length; j++) {
 				int targetNodeDistance = adjacency[i][j];
-				if(targetNodeDistance != Integer.MAX_VALUE){ //If we can leave that node
-					//Set the consumption from that node to the correct value
-//					store.impose(new Element(nodes[i], adjacency[i], consumtion[i],-1));
+				if(targetNodeDistance != Integer.MIN_VALUE){ //If we can leave that node
 					//Impose a constraint saying that if we go to the target node (j) fuellevel in j should be fuellevelIn[i]+fuelRefill[i]+consumption[i]
-//					store.impose(new IfThen(new XeqC(nodes[i], j+1), new XplusYplusQeqZ(fuelLevelsIn[i],fuelRefill[i], consumtion[i], fuelLevelsIn[j])));
-					//Last line doesn't work, probably needs some other way of dynamically imposing constraints depending on the target node
-//					
+					IfThen it =new IfThen(new XeqC(nodes[i], j+1), new XplusYplusQeqZ(fuelLevelsIn[i],fuelRefill[i], consumtion[i], fuelLevelsIn[j]));
+					store.impose(it);
+					
+//					System.out.println(it);
 				}
 			}
 		}
