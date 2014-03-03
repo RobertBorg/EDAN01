@@ -41,7 +41,7 @@ public class FullTank {
 	 */
 	public static void doWork() {
 		Store store = new Store();
-		int tankSize = 15;
+		int tankSize = 10;
 		IntVar maxFuel = new IntVar(store,"maxFuel", tankSize, tankSize);
 		
 		IntVar fuelLevelsIn[] = new IntVar [10];
@@ -53,7 +53,6 @@ public class FullTank {
 		IntVar fuelRefill[] = new IntVar [10];
 		for(int i = 0 ; i < 10; ++i) {
 			fuelRefill[i] = new IntVar(store, String.format("fuel refill in %d", i+1), 0, tankSize);
-//			store.impose(new XlteqY(fuelRefill[i], maxFuel));
 			store.impose(new XplusYlteqZ(fuelLevelsIn[i], fuelRefill[i], maxFuel));
 		}
 		
@@ -88,8 +87,6 @@ public class FullTank {
 		IntVar node10 = new IntVar(store, "10", 1, 1);
 		
 		IntVar nodes[] = {node1, node2, node3, node4, node5, node6 ,node7, node8, node9, node10};
-//		10, 8), new XplusYplusCeqZ(fuelLevelsIn[9],fuelRefill[9], -9, fuelLevelsIn[7])));
-		
 		int max = Integer.MIN_VALUE;
 		//DEfine adj matrix
 		int[][] adjacency = {{0, -10, -11, -6, max, max, max, max, max, max},
@@ -113,22 +110,20 @@ public class FullTank {
 			//Set the consumption from that node to the correct value
 			Element c =new Element(nodes[i], adjacency[i], consumtion[i]);
 			store.impose(c);
-//			System.out.println(c);
 			for (int j = 0; j < adjacency[i].length; j++) {
 				int targetNodeDistance = adjacency[i][j];
 				if(targetNodeDistance != Integer.MIN_VALUE){ //If we can leave that node
 					//Impose a constraint saying that if we go to the target node (j) fuellevel in j should be fuellevelIn[i]+fuelRefill[i]+consumption[i]
 					IfThen it =new IfThen(new XeqC(nodes[i], j+1), new XplusYplusQeqZ(fuelLevelsIn[i],fuelRefill[i], consumtion[i], fuelLevelsIn[j]));
 					store.impose(it);
-					
-//					System.out.println(it);
 				}
 			}
 		}
 
 		IntVar totalTankCost = new IntVar(store,"totalTankCost",0,50000);
+		
 		int[] fuelCost = new int[]{10,10,8,12,13,9,10,11,12,8};
-		int[] disregardFuelCost = new int[]{1,1,1,1,1,1,1,1,1,1};
+		
 		store.impose(new SumWeight(fuelRefill, fuelCost, totalTankCost));
 		
 		IntVar[] route = { node1, node2, node3, node4, node5, node6, node7, node8, node9, node10};
@@ -149,7 +144,6 @@ public class FullTank {
 		search.setSolutionListener(new PrintOutListener<IntVar>());
 
 		boolean result = search.labeling(store, select, totalTankCost);
-		System.out.println(store);
 
 	}
 }
