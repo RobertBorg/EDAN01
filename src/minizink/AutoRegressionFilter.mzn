@@ -13,8 +13,8 @@ array[TOTAL] of var int: index;
 set of int: numAdds = 1..12;
 set of int: numMuls = 1..16;
 
-array[numAdds] of var int: adds;
-array[numMuls] of var int: muls;
+array[numAdds] of var 0..1000: adds;
+array[numMuls] of var 0..1000: muls;
 
 index = [muls[1],muls[2],muls[3],muls[4]
 			,muls[5],muls[6],muls[7],muls[8]

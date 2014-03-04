@@ -1,5 +1,5 @@
-adders = 1;
-mulers = 1;
+adders = 2;
+mulers = 2;
 
 addTime = 1;
 mulTime = 2;
