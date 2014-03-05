@@ -63,6 +63,6 @@ constraint int_lin_le([1, -1], [adds[8], muls[14]], -1);
 constraint int_lin_le([1, -1], [adds[8], muls[16]], -1);
 constraint int_lin_le([1, -1], [adds[9], adds[11]], -1);
 constraint int_lin_le([1, -1], [adds[10], adds[12]], -1);
-constraint jacop_cumulative(adds, addTimes, addCost, 2);
-constraint jacop_cumulative(muls, mulTimes, mulCost, 2);
+constraint jacop_cumulative(adds, addTimes, addCost, 4);
+constraint jacop_cumulative(muls, mulTimes, mulCost, 4);
 solve minimize end;

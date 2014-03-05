@@ -6,23 +6,15 @@ int: mulers;
 int: addTime;
 int: mulTime;
 
-set of int: TOTAL = 1..28;
+set of int: TOTAL;
 
 array[TOTAL] of var int: index;
 
-set of int: numAdds = 1..12;
-set of int: numMuls = 1..16;
+set of int: numAdds;
+set of int: numMuls;
 
 array[numAdds] of var 0..1000: adds;
 array[numMuls] of var 0..1000: muls;
-
-index = [muls[1],muls[2],muls[3],muls[4]
-			,muls[5],muls[6],muls[7],muls[8]
-			,adds[1],adds[2],adds[3],adds[4]
-			,adds[5],adds[6],muls[9],muls[10]
-			,muls[11],muls[12],adds[7],adds[8]
-			,muls[13],muls[14],muls[15],muls[16]
-			,adds[9],adds[10],adds[11],adds[12]];
 			
 var int: end;
 
@@ -100,6 +92,6 @@ constraint (index[9] + addTime <= index[27]);
 constraint (index[28] + addTime <= end);
 constraint (index[27] + addTime <= end);
 
+output ["EndTime", show(end),"debugasdasdas",show(addTimes)];
 solve minimize end;
 
-output ["EndTime", show(end),"debugasdasdas",show(addTimes)];
