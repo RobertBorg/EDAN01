@@ -1,4 +1,4 @@
-package lab3;
+package uppgift2;
 
 import org.jacop.constraints.Cumulative;
 import org.jacop.constraints.Max;

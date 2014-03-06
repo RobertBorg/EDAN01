@@ -1,4 +1,4 @@
-package lab2;
+package uppgift1;
 
 import org.jacop.constraints.Sum;
 import org.jacop.constraints.SumWeight;
